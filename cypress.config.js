@@ -18,4 +18,5 @@ module.exports = defineConfig({
     },
     specPattern: "**/*.feature",
   },
+  video: true,
 });
