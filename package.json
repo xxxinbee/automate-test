@@ -11,8 +11,12 @@
   "description": "",
   "devDependencies": {
     "@badeball/cypress-cucumber-preprocessor": "^22.0.1",
-    "@bahmutov/cypress-esbuild-preprocessor": "^2.2.4",
+    "@bahmutov/cypress-esbuild-preprocessor": "^2.2.5",
     "cypress": "^14.3.3",
     "esbuild": "^0.25.4"
+  },
+  "dependencies": {
+    "dayjs": "^1.11.13",
+    "dotenv": "^16.5.0"
   }
 }

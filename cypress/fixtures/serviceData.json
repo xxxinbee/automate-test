@@ -1,0 +1,36 @@
+{
+  "Vaccine": {
+    "vaccineName": "Vaksinasi Tetanus Difteri (Td)",
+    "price": "Rp.0"
+  },
+   
+  "Rawat_Jalan": {
+    "doctor": "Dr. Ricky Z",
+    "price": "Rp.240000"
+  },
+
+  "pengkajianPasien": {
+    "suhuTubuh": 36.7,
+    "tinggiBadan": 165,
+    "beratBadan": 60,
+    "sistol": 120,
+    "diastol": 80,
+    "pernapasan": 18,
+    "nadi": 72,
+    "detakJantung": 75,
+    "riwayatAlergi": ["Dingin", "alergi debu", "alergi obat"],
+    "catatanAlergi": "Pasien memiliki riwayat alergi ringan terhadap obat dan suhu dingin."
+  },
+  
+  "pengisianSOAPPerawat": {
+    "keluhanPasien": "Rawat Jalan - Nyeri ringan di perut",
+    "psikososialSpiritual": "Rawat Jalan - Pasien tampak kooperatif dan tenang selama pemeriksaan.",
+    "riwayatKesehatanPasien": "Rawat Jalan - Pasien tidak memiliki riwayat penyakit kronis",
+    "riwayatKesehatanKeluarga": "Rawat Jalan - Tidak ada riwayat penyakit genetik atau kronis dalam keluarga",
+    "riwayatPenggunaanObat": "Rawat Jalan - Pasien tidak sedang dalam terapi obat jangka panjang",
+    "assessment": ["Gangguan menelan"]
+  }
+
+
+    
+}

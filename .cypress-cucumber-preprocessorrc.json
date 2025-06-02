@@ -2,6 +2,6 @@
   "stepDefinitions": [
     "[filepath]/**/*/.{js,ts}",
     "[filepath].{js,ts}",
-    "cypress/e2e/saucedemo/step_definitions/*.{js,ts}"
+    "cypress/e2e/RME/step_definitions/**/*.js"
   ]
 }
