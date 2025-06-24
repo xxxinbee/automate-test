@@ -1,4 +1,8 @@
 {
-  "Klinikqueue": "DR06",
-  "Imunisasiqueue": "IM08"
+  "Klinikqueue": "DR05",
+  "Imunisasiqueue": "IM02",
+  "Klinikqueue - Umum": "DR02",
+  "Klinikqueue - Penjamin": "DR08",
+  "Imunisasiqueue - Penjamin": "IM03",
+  "Imunisasiqueue - Umum": "IM02"
 }

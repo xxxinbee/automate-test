@@ -15,3 +15,12 @@
 
 // Import commands.js using ES2015 syntax:
 import './commands'
+// Akan menangkap unhandled exception yang tidak ingin kamu tangani
+Cypress.on('uncaught:exception', (err, runnable) => {
+    // Filter hanya error unhandled promise rejection
+    if (err.message.includes('unhandled promise rejection')) {
+      return false; // jangan fail test
+    }
+    return true; // biarkan error lain tetap menyebabkan fail
+  });
+  

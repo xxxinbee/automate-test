@@ -1,10 +1,18 @@
 {
-  "idNIK": "1122334455667788",
-  "idPenjamin": "1122334455",
+  "idNIK": "1231231231231231",
+  "idPenjamin": "09090909",
   "tipePenjamin": "Danone - KFD",
-  "name": "Haryono",
+  "name": "Jajang Supriatna",
   "birthDay": "1",
-  "birthMonthIndex": "0",
-  "birthYear": "2000",
-  "birthDate": "1 Januari 2000"
+  "birthMonthIndex": "4",
+  "birthYear": "2025",
+  "birthDate": "1 Mei 2025",
+
+  "idNIKFamily": "3276012309870001",
+  "nameFamily": "Anne Santoso",
+  "birthDayFamily": "1",
+  "birthMonthIndexFamily": "2",
+  "birthYearFamily": "2025",
+  "birthDateFamily": "1 Maret 2025"
 }
+

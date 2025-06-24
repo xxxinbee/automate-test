@@ -1,0 +1,16 @@
+{
+    "registrationTags": {
+      "Imunisasi": {
+        "Umum": "@regis_imunisasi_umum",
+        "Penjamin": "@regis_imunisasi_penjamin"
+      },
+      "Rawat Jalan": {
+        "Umum": "@regis_rawat_jalan_umum",
+        "Penjamin": "@regis_rawat_jalan_penjamin"
+      },
+      "Laboratorium": {
+        "Umum": "@regis_lab_umum",
+        "Penjamin": "@regis_lab_penjamin"
+      }
+    }
+  }

@@ -1,4 +1,4 @@
-Cypress.Commands.add("captureQueueCode", (aliasName, service) => {
+Cypress.Commands.add("captureQueueCode", (aliasName, service, patientType) => {
   cy.wait(aliasName).then((interception) => {
     console.log(interception.response.body);
 
@@ -9,7 +9,7 @@ Cypress.Commands.add("captureQueueCode", (aliasName, service) => {
     expect(queueCode).to.exist;
 
     const data = {};
-    data[`${service}queue`] = queueCode;
+    data[`${service}queue - ${patientType}`] = queueCode;
 
     cy.task("saveQueueCodeToFile", data);
   });

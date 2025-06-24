@@ -1,12 +1,12 @@
 {
   "Vaccine": {
-    "vaccineName": "Vaksinasi Tetanus Difteri (Td)",
-    "price": "Rp.0"
+    "vaccineName": "Vaksinasi Hepatitis B 1.0 ml/ Dewasa",
+    "price": "Rp240.000"
   },
    
   "Rawat_Jalan": {
-    "doctor": "Dr. Ricky Z",
-    "price": "Rp.240000"
+    "doctor": "Dr Matthew",
+    "price": "Rp200000"
   },
 
   "pengkajianPasien": {
@@ -28,7 +28,7 @@
     "riwayatKesehatanPasien": "Rawat Jalan - Pasien tidak memiliki riwayat penyakit kronis",
     "riwayatKesehatanKeluarga": "Rawat Jalan - Tidak ada riwayat penyakit genetik atau kronis dalam keluarga",
     "riwayatPenggunaanObat": "Rawat Jalan - Pasien tidak sedang dalam terapi obat jangka panjang",
-    "assessment": ["Gangguan menelan"]
+    "assessment": "Gangguan menelan"
   }
 
 

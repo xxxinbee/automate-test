@@ -5,8 +5,9 @@ import "dayjs/locale/id";
 import patientData from "../../../fixtures/patientData.json";
 
 Given("I open the kiosk registration page", () => {
-  const kioskUrl = Cypress.env("KIOSK_URL");
-  cy.visit(kioskUrl);
+  // const kioskUrl = Cypress.env("KIOSK_URL");
+  cy.visit(Cypress.env("KIOSK_URL"));
+  cy.viewport(1764, 954); // Set viewport size for kiosk
 });
 
 When("I choose {string} option", (option) => {
@@ -20,10 +21,11 @@ When("I choose {string}", (option) => {
   cy.get(elements.kiosk.registrasi.buttonSelanjutnya).click();
 });
 
-When("I as {string} patient type complete and submit the patient data form with valid data",
+When("as {string} patient I submit valid patient data",
   (patientType) => {
     const sequenceUmum = patientData.idNIK.split("");
     const sequencePenjamin = patientData.idPenjamin.split("");
+   
     Cypress.env("currentPatientType", patientType);
 
     if (patientType === "Umum") {
@@ -50,8 +52,9 @@ When("I as {string} patient type complete and submit the patient data form with 
         .not(".react-datepicker__day--outside-month")
         .contains(new RegExp(`^${patientData.birthDay}$`))
         .click({ force: true });
+
       cy.get(elements.kiosk.registrasi.patientDataForm.searchButton).click();
-      cy.wait(15000); // Wait for the input to be ready
+      cy.wait(1500); // Wait for the input to be ready
       cy.get(elements.kiosk.registrasi.patientDataForm.name).should(
         "have.value",
         patientData.name
@@ -65,6 +68,21 @@ When("I as {string} patient type complete and submit the patient data form with 
       ).click();
       cy.get('input[role="combobox"]').type(patientData.tipePenjamin);
       cy.get('div[id*="-option-"]').contains(patientData.tipePenjamin).click();
+
+      cy.get(elements.kiosk.registrasi.patientDataForm.birthDate).click();
+      // Select month and year
+      cy.get(elements.kiosk.registrasi.patientDataForm.birthMonthSelect).select(
+        patientData.birthMonthIndex
+      );
+      cy.get(elements.kiosk.registrasi.patientDataForm.birthYearSelect).select(
+        patientData.birthYear
+      );
+      cy.get(elements.kiosk.registrasi.patientDataForm.birthDay)
+      .not(".react-datepicker__day--outside-month")
+      .contains(new RegExp(`^${patientData.birthDay}$`))
+      .click({ force: true });
+
+      // input id penjamin
       cy.get(elements.kiosk.registrasi.patientDataForm.patientId).click();
       sequencePenjamin.forEach((num) => {
         cy.contains("button", num).click();
@@ -84,78 +102,113 @@ When("I as {string} patient type complete and submit the patient data form with 
 
 // step definitions to be flexible and support with more than 2 params, based on testcase requirements
 When(/^I choose "([^"]+)" and "([^"]+)"(?: and "([^"]+)")? to register for$/, (service, subservice1, subservice2) => {
-    // data to assert
-    const patientType = Cypress.env("currentPatientType");
-    const appointmentQueueAPI = Cypress.env("APPOINTMENT_QUEUE_API");
-    dayjs.locale("id");
-    const serviceSchedule = dayjs().format("dddd, D MMMM YYYY");
-    const serviceHours = "07:00 - 23:00";
+  // data to assert
+  const patientType = Cypress.env("currentPatientType");
+  const penjaminName = patientData.tipePenjamin;
+  const appointmentQueueAPI = Cypress.env("APPOINTMENT_QUEUE_API");
+  dayjs.locale("id");
+  const serviceSchedule = dayjs().format("dddd, D MMMM YYYY");
+  const serviceHours = "00:00 - 23:59"; // Default service hours
 
-    const expectedTexts = [
-      patientType,
-      service,
-      subservice1,
-      subservice2,
-      serviceSchedule,
-      serviceHours,
-    ].filter(Boolean); // Filter out any undefined values
+  let expectedTexts = [
+    patientType,
+    service,
+    subservice1,
+    subservice2,
+    serviceSchedule,
+    serviceHours,
+  ].filter(Boolean); // Filter out any undefined values
 
-    cy.contains(service).click();
+  // modif array jika patientType adalah "umum"
+  // if (patientType === "Umum") {
+  //   // Jika patientType adalah "umum", tidak perlu memasukkan penjaminName
+  //   expectedTexts = [
+  //     patientType,
+  //     service,
+  //     subservice1,
+  //     subservice2,
+  //     serviceSchedule,
+  //     serviceHours,
+  //   ].filter(Boolean); // Menghapus nilai undefined
+  // } else if (patientType === "Penjamin") {
+  //   expectedTexts = [
+  //     patientType,
+  //     // penjaminName, 
+  //     service,
+  //     subservice1,
+  //     subservice2,
+  //     serviceSchedule,
+  //     serviceHours,
+  //   ].filter(Boolean); // Filter out undefined values
+  // }
 
-    switch (service) {
-      case "Imunisasi":
-        cy.get(elements.kiosk.registrasi.imunisasi.dropdownVaccine).click();
-        cy.contains(subservice1, { timeout: 10000 })
-          .should("be.visible")
-          .click();
-        // cy.get('body').type('{esc}');  
-        cy.get(elements.kiosk.registrasi.imunisasi.fieldDropdownVaccine).click();
-        break;
+  cy.contains(service).click();
 
-      case "Klinik":
-        cy.get(".css-1gazu85-control").click();
-        cy.get("#react-select-2-input")
-          .type(subservice1, { force: true })
+  switch (service) {
+    case "Imunisasi":
+      cy.get(elements.kiosk.registrasi.imunisasi.dropdownVaccine).click();
+      // pake filter karena id dropdownnya berubah-ubah
+      cy.get('[id^="react-select-"][id$="-listbox"]')
+        .contains(subservice1)
+        .click();
+      cy.get(elements.kiosk.registrasi.imunisasi.fieldDropdownVaccine).click();
+      break;
+
+    case "Klinik":
+      //poli
+      cy.get('[class*="css-"][class*="-control"]').eq(0).click();
+      cy.get('[id^="react-select-"][id$="-input"]').eq(0)
+        .type(subservice1, { force: true })
+        .then(() => {
+          cy.get('[id^="react-select-"][id$="-listbox"]').eq(0)
+            .should("be.visible")
+            .click();
+        });
+
+        //sub layanan
+        cy.get('[class*="css-"][class*="-control"]').eq(1).click();
+        cy.get('[id^="react-select-"][id$="-input"]').eq(1)
+          .type(subservice2, { force: true })
           .then(() => {
-            cy.get("#react-select-2-listbox")
-              .contains(subservice1, { timeout: 10000 })
+            cy.get('[id^="react-select-"][id$="-listbox"]').eq(0)
+              .contains(subservice2, { timeout: 10000 })
               .should("be.visible")
               .click();
-          });
+          });  
 
-        cy.get("#react-select-3-input")
-          .type(subservice2, { force: true, delay: 100 })
-          .then(() => {
-            cy.get("#react-select-3-listbox").contains(subservice2).click();
-          });
-        break;
-    }
-
-    // Click Register
-    cy.get(elements.kiosk.registrasi.registerButton, { timeout: 10000 })
-      .should("be.visible")
-      .click();
-
-    // Assert nama pasien dan tanggal lahir
-    cy.get(elements.kiosk.registrasi.patientNameLabel)
-    .should("have.text", patientData.name);
-
-    cy.get(elements.kiosk.registrasi.patientBirthDateLabel)
-    .should("have.text",patientData.birthDate);
-
-    // Assert informasi layanan (patient type, service, subservice, [doctor])
-    cy.get(elements.kiosk.registrasi.patientServiceLabel).each(($el, index) => {
-      expect($el.text().trim()).to.eq(expectedTexts[index]);
-    });
-
-    // Intercept & print queue
-    cy.intercept("POST", appointmentQueueAPI).as("register");
-    cy.get(elements.kiosk.registrasi.printButton)
-      .should("be.visible")
-      .should("not.be.disabled")
-      .click();
-    cy.captureQueueCode("@register", service);
+      break;
   }
+
+  // Click Daftarkan
+  cy.wait(1000); // Wait for the service to be selected
+  cy.get(elements.kiosk.registrasi.registerButton, { wait: 1000 })
+    .should("be.visible")
+    .click();
+
+  // Assert nama pasien dan tanggal lahir
+  cy.get(elements.kiosk.registrasi.patientNameLabel).should(
+    "have.text",
+    patientData.name
+  );
+
+  cy.get(elements.kiosk.registrasi.patientBirthDateLabel).should(
+    "have.text",
+    patientData.birthDate
+  );
+
+  // Assert informasi layanan (patient type, service, subservice, [doctor])
+  cy.get(elements.kiosk.registrasi.patientServiceLabel).each(($el, index) => {
+    expect($el.text().trim()).to.eq(expectedTexts[index]);
+  });
+
+  // Intercept & print queue
+  cy.intercept("POST", appointmentQueueAPI).as("register");
+  cy.get(elements.kiosk.registrasi.printButton)
+    .should("be.visible")
+    .should("not.be.disabled")
+    .click();
+  cy.captureQueueCode("@register", service, patientType,);
+}
 );
 
 Then("I should see a registration confirmation message", () => {

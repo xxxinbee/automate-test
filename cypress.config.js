@@ -71,7 +71,8 @@ module.exports = defineConfig({
       return config;
     },
 
-    specPattern: "cypress/e2e/**/*.feature",
+    specPattern: ["cypress/e2e/**/*.feature", "**/*.cy.{js,jsx,ts,tsx}"],
+
 
     env: {
       KIOSK_URL: process.env.KIOSK_URL,
