@@ -23,8 +23,8 @@ When("I choose {string}", (option) => {
 
 When("as {string} patient I submit valid patient data",
   (patientType) => {
-    const sequenceUmum = patientData.idNIK.split("");
-    const sequencePenjamin = patientData.idPenjamin.split("");
+    const sequenceUmum = patientData.Valid.idNIK.split("");
+    const sequencePenjamin = patientData.Valid.idPenjamin.split("");
    
     Cypress.env("currentPatientType", patientType);
 
@@ -41,23 +41,23 @@ When("as {string} patient I submit valid patient data",
       cy.get(elements.kiosk.registrasi.patientDataForm.birthDate).click();
       // Select month and year
       cy.get(elements.kiosk.registrasi.patientDataForm.birthMonthSelect).select(
-        patientData.birthMonthIndex
+        patientData.Valid.birthMonthIndex
       );
       cy.get(elements.kiosk.registrasi.patientDataForm.birthYearSelect).select(
-        patientData.birthYear
+        patientData.Valid.birthYear
       );
 
       // select date -> visible days only
       cy.get(elements.kiosk.registrasi.patientDataForm.birthDay)
         .not(".react-datepicker__day--outside-month")
-        .contains(new RegExp(`^${patientData.birthDay}$`))
+        .contains(new RegExp(`^${patientData.Valid.birthDay}$`))
         .click({ force: true });
 
       cy.get(elements.kiosk.registrasi.patientDataForm.searchButton).click();
       cy.wait(1500); // Wait for the input to be ready
       cy.get(elements.kiosk.registrasi.patientDataForm.name).should(
         "have.value",
-        patientData.name
+        patientData.Valid.name
       );
     } else if (patientType === "Penjamin") {
       cy.get(elements.kiosk.registrasi.patientType)
@@ -66,20 +66,20 @@ When("as {string} patient I submit valid patient data",
       cy.get(
         elements.kiosk.registrasi.patientDataForm.penjaminSelector
       ).click();
-      cy.get('input[role="combobox"]').type(patientData.tipePenjamin);
-      cy.get('div[id*="-option-"]').contains(patientData.tipePenjamin).click();
+      cy.get('input[role="combobox"]').type(patientData.Valid.tipePenjamin);
+      cy.get('div[id*="-option-"]').contains(patientData.Valid.tipePenjamin).click();
 
       cy.get(elements.kiosk.registrasi.patientDataForm.birthDate).click();
       // Select month and year
       cy.get(elements.kiosk.registrasi.patientDataForm.birthMonthSelect).select(
-        patientData.birthMonthIndex
+        patientData.Valid.birthMonthIndex
       );
       cy.get(elements.kiosk.registrasi.patientDataForm.birthYearSelect).select(
-        patientData.birthYear
+        patientData.Valid.birthYear
       );
       cy.get(elements.kiosk.registrasi.patientDataForm.birthDay)
       .not(".react-datepicker__day--outside-month")
-      .contains(new RegExp(`^${patientData.birthDay}$`))
+      .contains(new RegExp(`^${patientData.Valid.birthDay}$`))
       .click({ force: true });
 
       // input id penjamin
@@ -92,7 +92,7 @@ When("as {string} patient I submit valid patient data",
       ).click();
       cy.get(elements.kiosk.registrasi.patientDataForm.namePenjamin).should(
         "have.value",
-        patientData.name
+        patientData.Valid.name
       );
     }
 
@@ -104,7 +104,7 @@ When("as {string} patient I submit valid patient data",
 When(/^I choose "([^"]+)" and "([^"]+)"(?: and "([^"]+)")? to register for$/, (service, subservice1, subservice2) => {
   // data to assert
   const patientType = Cypress.env("currentPatientType");
-  const penjaminName = patientData.tipePenjamin;
+  const penjaminName = patientData.Valid.tipePenjamin;
   const appointmentQueueAPI = Cypress.env("APPOINTMENT_QUEUE_API");
   dayjs.locale("id");
   const serviceSchedule = dayjs().format("dddd, D MMMM YYYY");
@@ -188,12 +188,12 @@ When(/^I choose "([^"]+)" and "([^"]+)"(?: and "([^"]+)")? to register for$/, (s
   // Assert nama pasien dan tanggal lahir
   cy.get(elements.kiosk.registrasi.patientNameLabel).should(
     "have.text",
-    patientData.name
+    patientData.Valid.name
   );
 
   cy.get(elements.kiosk.registrasi.patientBirthDateLabel).should(
     "have.text",
-    patientData.birthDate
+    patientData.Valid.birthDate
   );
 
   // Assert informasi layanan (patient type, service, subservice, [doctor])
@@ -216,4 +216,90 @@ Then("I should see a registration confirmation message", () => {
     "have.text",
     "Terima kasih!"
   );
+});
+
+
+When("as {string} patient I submit invalid patient data",
+  (patientType) => {
+    const sequenceUmum = patientData.Invalid.idNIK.split("");
+    const sequencePenjamin = patientData.Invalid.idPenjamin.split("");
+   
+    Cypress.env("currentPatientType", patientType);
+
+    if (patientType === "Umum") {
+      cy.get(elements.kiosk.registrasi.patientType)
+        .contains(patientType)
+        .click();
+      // input NIK
+      cy.get(elements.kiosk.registrasi.patientDataForm.patientId).click();
+      sequenceUmum.forEach((num) => {
+        cy.contains("button", num).click();
+      });
+
+      cy.get(elements.kiosk.registrasi.patientDataForm.birthDate).click();
+      // Select month and year
+      cy.get(elements.kiosk.registrasi.patientDataForm.birthMonthSelect).select(
+        patientData.Invalid.birthMonthIndex
+      );
+      cy.get(elements.kiosk.registrasi.patientDataForm.birthYearSelect).select(
+        patientData.Invalid.birthYear
+      );
+
+      // select date -> visible days only
+      cy.get(elements.kiosk.registrasi.patientDataForm.birthDay)
+        .not(".react-datepicker__day--outside-month")
+        .contains(new RegExp(`^${patientData.Invalid.birthDay}$`))
+        .click({ force: true });
+
+      cy.get(elements.kiosk.registrasi.patientDataForm.searchButton).click();
+      cy.wait(1500); // Wait for the input to be ready
+   
+    } else if (patientType === "Penjamin") {
+      cy.get(elements.kiosk.registrasi.patientType)
+        .contains(patientType)
+        .click();
+      cy.get(
+        elements.kiosk.registrasi.patientDataForm.penjaminSelector
+      ).click();
+      cy.get('input[role="combobox"]').type(patientData.Invalid.tipePenjamin);
+      cy.get('div[id*="-option-"]').contains(patientData.Invalid.tipePenjamin).click();
+
+      cy.get(elements.kiosk.registrasi.patientDataForm.birthDate).click();
+      // Select month and year
+      cy.get(elements.kiosk.registrasi.patientDataForm.birthMonthSelect).select(
+        patientData.Invalid.birthMonthIndex
+      );
+      cy.get(elements.kiosk.registrasi.patientDataForm.birthYearSelect).select(
+        patientData.Invalid.birthYear
+      );
+      cy.get(elements.kiosk.registrasi.patientDataForm.birthDay)
+      .not(".react-datepicker__day--outside-month")
+      .contains(new RegExp(`^${patientData.Invalid.birthDay}$`))
+      .click({ force: true });
+
+      // input id penjamin
+      cy.get(elements.kiosk.registrasi.patientDataForm.patientId).click();
+      sequencePenjamin.forEach((num) => {
+        cy.contains("button", num).click();
+      });
+      cy.get(
+        elements.kiosk.registrasi.patientDataForm.searchPenjaminPatient
+      ).click();
+     
+    }
+
+  }
+);
+
+Then("I should see patient unregistered message", () => {
+  cy.get(".relative.w-full")
+  .should("be.visible")
+  .within(() => {
+    cy.get(".text-xs.text-black")
+      .contains("Data Pasien tidak ditemukan!")
+      .and("be.visible");
+  }
+  );
+ 
+
 });

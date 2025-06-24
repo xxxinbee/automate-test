@@ -1,18 +1,31 @@
 {
-  "idNIK": "1231231231231231",
-  "idPenjamin": "09090909",
-  "tipePenjamin": "Danone - KFD",
-  "name": "Jajang Supriatna",
-  "birthDay": "1",
-  "birthMonthIndex": "4",
-  "birthYear": "2025",
-  "birthDate": "1 Mei 2025",
+  "Valid":{
+    "idNIK": "1231231231231231",
+    "idPenjamin": "09090909",
+    "tipePenjamin": "Danone - KFD",
+    "name": "Jajang Supriatna",
+    "birthDay": "1",
+    "birthMonthIndex": "4",
+    "birthYear": "2025",
+    "birthDate": "1 Mei 2025",
+  
+    "idNIKFamily": "3276012309870001",
+    "nameFamily": "Anne Santoso",
+    "birthDayFamily": "1",
+    "birthMonthIndexFamily": "2",
+    "birthYearFamily": "2025",
+    "birthDateFamily": "1 Maret 2025"
+  },
+  "Invalid": {
+    "idNIK": "1928374653245678",
+    "idPenjamin": "54678932",
+    "tipePenjamin": "Danone - KFD",
+    "birthDay": "31",
+    "birthMonthIndex": "2",
+    "birthYear": "2025",
+    "birthDate": "31 Maret 2025",
+    "name": ""
 
-  "idNIKFamily": "3276012309870001",
-  "nameFamily": "Anne Santoso",
-  "birthDayFamily": "1",
-  "birthMonthIndexFamily": "2",
-  "birthYearFamily": "2025",
-  "birthDateFamily": "1 Maret 2025"
+  
 }
-
+}

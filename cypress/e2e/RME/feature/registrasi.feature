@@ -1,5 +1,7 @@
 Feature: Mediverse RME Registration
 
+
+
   @regis_imunisasi_umum
   Scenario: Self Registration - Imunisasin- Umum
     Given I open the kiosk registration page
@@ -37,11 +39,18 @@ Feature: Mediverse RME Registration
     Then I should see a registration confirmation message
 
 
-  Scenario: Self Registration - Laboratorium
+ @regis_umum_invalid
+  Scenario: Self Registration - Umum - Invalid Data
     Given I open the kiosk registration page
-    When I choose the self registration option
-    And I choose "Laboratorium" to register for
-    And I fill in the registration form with valid data
-    And I submit the registration form
-    Then I should see a confirmation message
-    And The data I submitted should be saved dan registered
+    When I choose "Belum Terdaftar" option
+    And I choose "Daftar secara Mandiri"
+    And as "Umum" patient I submit invalid patient data
+    Then I should see patient unregistered message
+
+  @regis_penjamin_invalid
+  Scenario: Self Registration - Penjamin - Invalid Data
+    Given I open the kiosk registration page
+    When I choose "Belum Terdaftar" option
+    And I choose "Daftar secara Mandiri"
+    And as "Penjamin" patient I submit invalid patient data
+    Then I should see patient unregistered message
